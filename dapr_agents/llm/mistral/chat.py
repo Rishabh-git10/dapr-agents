@@ -96,7 +96,7 @@ class MistralChatClient(MistralClientBase, ChatClientBase):
                 f"Expected Prompty model configuration type to be 'mistral', "
                 f"but got '{prompty.model.configuration.type}'."
             )
-        
+
         prompt_template = prompty.to_prompt_template()
 
         config = prompty.model.configuration

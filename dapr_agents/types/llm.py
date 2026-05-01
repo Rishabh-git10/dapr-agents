@@ -46,7 +46,9 @@ class MistralClientConfig(BaseModel):
 
 
 class MistralModelConfig(MistralClientConfig):
-    type: Literal["mistral"] = Field("mistral", description="Type of the model, must always be 'mistral'")
+    type: Literal["mistral"] = Field(
+        "mistral", description="Type of the model, must always be 'mistral'"
+    )
     name: str = Field(default="", description="Name of the Mistral model")
 
 
@@ -54,14 +56,29 @@ class MistralChatCompletionParams(BaseModel):
     """
     Specific settings for the Mistral Chat Completion endpoint.
     """
+
     model: Optional[str] = Field(None, description="ID of the model to use")
-    temperature: Optional[float] = Field(0.7, ge=0.0, le=1.0, description="Sampling temperature")
-    max_tokens: Optional[int] = Field(None, description="Maximum number of tokens to generate")
-    top_p: Optional[float] = Field(1.0, ge=0.0, le=1.0, description="Nucleus sampling probability mass")
-    random_seed: Optional[int] = Field(None, description="Seed for deterministic sampling")
-    safe_prompt: Optional[bool] = Field(False, description="Whether to inject a safety prompt")
-    tools: Optional[List[Dict[str, Any]]] = Field(None, description="List of tools the model may call")
-    tool_choice: Optional[Union[str, Literal["auto", "any", "none"]]] = Field(None, description="Controls which tool is called")
+    temperature: Optional[float] = Field(
+        0.7, ge=0.0, le=1.0, description="Sampling temperature"
+    )
+    max_tokens: Optional[int] = Field(
+        None, description="Maximum number of tokens to generate"
+    )
+    top_p: Optional[float] = Field(
+        1.0, ge=0.0, le=1.0, description="Nucleus sampling probability mass"
+    )
+    random_seed: Optional[int] = Field(
+        None, description="Seed for deterministic sampling"
+    )
+    safe_prompt: Optional[bool] = Field(
+        False, description="Whether to inject a safety prompt"
+    )
+    tools: Optional[List[Dict[str, Any]]] = Field(
+        None, description="List of tools the model may call"
+    )
+    tool_choice: Optional[Union[str, Literal["auto", "any", "none"]]] = Field(
+        None, description="Controls which tool is called"
+    )
 
 
 class DaprInferenceClientConfig:
@@ -346,7 +363,11 @@ class PromptyModelConfig(BaseModel):
         "chat", description="The API to use, either 'chat' or 'completion'"
     )
     configuration: Union[
-        OpenAIModelConfig, AzureOpenAIModelConfig, HFHubModelConfig, NVIDIAModelConfig, MistralModelConfig
+        OpenAIModelConfig,
+        AzureOpenAIModelConfig,
+        HFHubModelConfig,
+        NVIDIAModelConfig,
+        MistralModelConfig,
     ] = Field(..., description="Model configuration settings")
     parameters: Union[
         OpenAITextCompletionParams,
