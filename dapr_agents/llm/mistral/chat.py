@@ -88,7 +88,12 @@ class MistralChatClient(MistralClientBase, ChatClientBase):
     ) -> "MistralChatClient":
         """
         Create a MistralChatClient from a Prompty source.
+
+        The `timeout` parameter is accepted to satisfy the `ChatClientBase`
+        contract, but it is not currently applied by this Mistral client
+        implementation.
         """
+        del timeout
         prompty = Prompty.load(prompty_source)
 
         if prompty.model.configuration.type != "mistral":
@@ -101,6 +106,11 @@ class MistralChatClient(MistralClientBase, ChatClientBase):
 
         config = prompty.model.configuration
         parameters = prompty.model.parameters
+
+        if getattr(parameters, "tools", None):
+            raise NotImplementedError(
+                "Tools are not yet supported for the Mistral provider via Prompty."
+            )
 
         return cls(
             model=parameters.model or config.name,
