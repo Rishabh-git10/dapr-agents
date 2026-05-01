@@ -35,11 +35,15 @@ def test_workflow_replay_filter_logic():
     )
     logger_filter = WorkflowReplayFilter()
 
-    workflow_replaying_ctx.set(False)
-    assert logger_filter.filter(record) is True
+    initial_token = workflow_replaying_ctx.set(False)
 
-    workflow_replaying_ctx.set(True)
-    assert logger_filter.filter(record) is False
+    try:
+        assert logger_filter.filter(record) is True
+
+        workflow_replaying_ctx.set(True)
+        assert logger_filter.filter(record) is False
+    finally:
+        workflow_replaying_ctx.reset(initial_token)
 
 
 def test_logger_initialization_idempotency():

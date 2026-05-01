@@ -58,6 +58,12 @@ def with_logger_context(func: Callable[..., Any]) -> Callable[..., Any]:
                 ctx = arg
                 break
 
+        if ctx is None:
+            for val in kwargs.values():
+                if hasattr(val, "is_replaying"):
+                    ctx = val
+                    break
+
         if ctx is not None:
             token = workflow_replaying_ctx.set(ctx.is_replaying)
             try:
